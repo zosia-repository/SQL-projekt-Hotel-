@@ -1,0 +1,39 @@
+#### Wyświetl wszystkie wolne pokoje.
+select status_rezerwacji.id_pokoju as'numery wolnych pokoi',ilość_osób as 'ilość osób', jakość, cena from status_rezerwacji,
+ pokój where status_rezerwacji.id_pokoju=pokój.id_pokoju and status_pokoju = 'wolny';
+
+#### Zmień status pokoju 21 na zajęty przez klienta z numerem id = 2 i dzisiejszą datą 
+zameldowania.
+
+update status_rezerwacji set status_pokoju = 'zajęty', id_rezerwacji = 87 where id_pokoju = 21;
+
+insert into rezerwacja(id_pokoju, id_klienta, data_zameldowania, data_wymeldowania)
+values(21, 2, '2022-01-28', null);
+
+insert into rachunek (id_rezerwacji, status_płatności, kwota)
+values (87, 'nie zapłacone', null );
+
+
+#### Wymelduj klienta z pokoju nr 6, zmień status płatności na zapłacony.
+
+update status_rezerwacji set status_pokoju = 'wolny', id_rezerwacji = null where id_pokoju = 6;
+update rezerwacja set data_wymeldowania = '2022-01-28' where id_rezerwacji = 81;
+update rachunek set status_płatności = 'zapłacone' , kwota = 1430.00 where id_rezerwacji = 81;
+
+#### Wymień pokoje z ceną w przedziale od 140 do 190
+
+select jakość, ilość_osób as 'liczba osób', id_pokoju as 'numer pokoju', cena from pokój where cena > 130 and cena < 190 order by cena;
+
+#### Podaj ilość osób zameldowanych w listopadzie i grudniu
+
+select count(*) from rezerwacja where data_zameldowania between '2021-11-01' and '2021-12-31';
+
+
+#### Oblicz średnią cenę pokoi z podziałem na ilość osób:
+select ilość_osób, avg(cena) as 'średnia cena pokoi' from pokój group by ilość_osób;
+
+#### Oblicz ilość wszystkich pokoi z jakością 3:
+select count(*) from pokój where jakość = 3;
+
+#### Oblicz ilość klientów:
+select count(*) from klient;
